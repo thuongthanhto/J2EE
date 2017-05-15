@@ -43,7 +43,7 @@
                     
                     <li><a href="manager_category.jsp"><i class="fa fa-book"></i> <span>Quản lý danh mục</span></a></li>
                     <li><a href="manager_product.jsp"><i class="fa fa-book"></i> <span>Quản lý sản phẩm</span></a></li>
-                    <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Duyệt đơn hàng</span></a></li>
+                    <li><a href="management_bill.jsp"><i class="fa fa-book"></i> <span>Duyệt đơn hàng</span></a></li>
                 </ul>
             </section>
             <!-- /.sidebar -->

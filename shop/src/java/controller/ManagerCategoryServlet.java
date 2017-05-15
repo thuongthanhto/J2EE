@@ -27,7 +27,22 @@ public class ManagerCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String command = request.getParameter("command");
+        String category_id = request.getParameter("category_id");
+
+        String url = "";
+        try {
+            switch (command) {
+
+                case "delete":
+                    categoryDAO.deleteCategory(Long.parseLong(category_id));
+                    url = "/admin/manager_category.jsp";
+                    break;
+            }
+        } catch (Exception e) {
+        }
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     @Override

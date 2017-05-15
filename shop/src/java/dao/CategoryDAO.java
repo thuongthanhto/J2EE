@@ -23,7 +23,7 @@ public class CategoryDAO {
 // hiển thị chi tiết sản phẩm
     public Category getCategory(long categoryID) throws SQLException {
         Connection connection = DBConnect.getConnection();
-        String sql = "SELECT * FROM category WHERE category_id = '" + categoryID + "'";
+        String sql = "SELECT * FROM category WHERE category_id = " + categoryID + "";
         PreparedStatement ps = connection.prepareCall(sql);
         ResultSet rs = ps.executeQuery();
         Category category = new Category();
@@ -55,7 +55,7 @@ public class CategoryDAO {
         Connection connection = DBConnect.getConnection();
         String sql = "SELECT * FROM Category limit ?,?";
         PreparedStatement ps = connection.prepareCall(sql);
-        ps.setInt(1, firstResult - 1);
+        ps.setInt(1, firstResult);
         ps.setInt(2, maxResult);
         ResultSet rs = ps.executeQuery();
         ArrayList<Category> list = new ArrayList<>();
