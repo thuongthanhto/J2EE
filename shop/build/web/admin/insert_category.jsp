@@ -83,6 +83,7 @@
                                 <div class="box-footer">
                                     <a href='manager_category.jsp' class="btn btn-default">Hủy</a> 
                                     <input type="hidden" name="command" value="insert">
+                                    <input type="hidden" name="category_id" value="hiddenValue">
                                     <input type="submit" class="btn btn-success pull-right" value='Lưu'/>
                                 </div><!-- /.box-footer -->
                             </form>

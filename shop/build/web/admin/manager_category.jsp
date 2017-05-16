@@ -40,22 +40,15 @@
         <%
             CategoryDAO categoryDAO = new CategoryDAO();
 
-            int pages = 0, firstResult = 0, maxResult = 0, total = 0;
+            int pages = 1;
+            int recordsPerPage = 5;
             if (request.getParameter("pages") != null) {
                 pages = (int) Integer.parseInt(request.getParameter("pages"));
             }
-
-            total = categoryDAO.countCategory();
-            if (total <= 8) {
-                firstResult = 1;
-                maxResult = total;
-            } else {
-                firstResult = (pages - 1) * 8;
-                maxResult = 8;
-            }
-
-            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList(firstResult, maxResult);
-
+            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList((pages-1)*recordsPerPage, recordsPerPage);
+            
+            int noOfRecords = categoryDAO.countCategory();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
         %>
 
         <!-- Site wrapper -->
@@ -101,7 +94,7 @@
                                         </div><!-- /input-group -->
                                     </div>
                                     <div class="col-md-6">
-                                        <button onclick="window.location.href='insert_category.jsp'"class="btn btn-success">Thêm mới</button>
+                                        <button onclick="window.location.href='insert_category.jsp'" class="btn btn-success">Thêm mới</button>
                                     </div>
                                 </di>
                                 <div class="row">
@@ -129,14 +122,14 @@
                                                 <%=category.getCategoryGroup()%>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-primary" ui-sref="edit_product_category({id:item.ID})"><i class="fa fa-pencil"></i></button>
-                                                <button class="btn  btn-sm btn-danger" ng-click="deleteProductCategory(item.ID)"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="window.location.href='edit_category.jsp?categoryID=<%=category.getCategoryID()%>'"><i class="fa fa-pencil"></i></button>
+                                                <a class="btn  btn-sm btn-danger" href="/shop/ManagerCategoryServlet?command=delete&category_id=<%=category.getCategoryID()%>"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         <%}%>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="6"><span class="pull-right">Trang: <%=(pages+1)%> - Tổng số bản ghi: <%=total%></span></td>
+                                                <td colspan="6"><span class="pull-right">Trang: <%=(pages)%> - Tổng số bản ghi: <%=noOfRecords%></span></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -150,8 +143,8 @@
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-                                <%for (int i = 1; i <= (total / 8) + 1; i++) {%>
-                                <li><a href="manager_category.jsp?&pages=<%=i%>"><%=i%></a></li>
+                                <%for (int i = 1; i <= noOfPages; i++) {%>
+                                <li><a href="${pageContext.request.contextPath}/admin/manager_category.jsp?pages=<%=i%>"><%=i%></a></li>
                                     <%}%>
                                 <li>
                                     <a href="#" aria-label="Next">

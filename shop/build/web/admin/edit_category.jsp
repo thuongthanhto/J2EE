@@ -36,7 +36,7 @@
         <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
-        
+
         <%
             CategoryDAO categoryDAO = new CategoryDAO();
             Category category = new Category();
@@ -46,7 +46,7 @@
                 category = categoryDAO.getCategory(Long.parseLong(categoryID));
             }
         %>
-        
+
         <!-- Site wrapper -->
         <div class="wrapper">
             <jsp:include page="header.jsp"></jsp:include>
@@ -67,7 +67,7 @@
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
                             <li><a href="#">Sản phẩm</a></li>
                             <li><a ui-sref="product_categories">Danh mục</a></li>
-                            <li class="active">Thêm mới</li>
+                            <li class="active">Sửa</li>
                         </ol>
                     </section>
                     <!-- Main content -->
@@ -75,7 +75,7 @@
                         <!-- Horizontal Form -->
                         <div class="box box-info">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Thêm mới</h3>
+                                <h3 class="box-title">Sửa</h3>
                             </div><!-- /.box-header -->
                             <!-- form start -->
                             <form class="form-horizontal" action="/shop/ManagerCategoryServlet" method="post">
@@ -83,34 +83,43 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-2 control-label">Tên danh mục</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="tenDanhMuc">
-                                        </div>
+                                            <input type="text" class="form-control" name="tenDanhMuc" value="<%=category.getCategoryName()%>">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label">Nhóm danh mục</label>
-                                        <div class="col-sm-10">
-                                            <input type="radio" name="groupDanhMuc" value='Nam'> Nam            
-                                            <input type="radio" name="groupDanhMuc" value='Nữ'> Nữ
-                                        </div>
-                                    </div>
-                                </div><!-- /.box-body -->
-                                <div class="box-footer">
-                                    <a href='manager_category.jsp' class="btn btn-default">Hủy</a> 
-                                    <input type="hidden" name="command" value="insert">
-                                    <input type="submit" class="btn btn-success pull-right" value='Lưu'/>
-                                </div><!-- /.box-footer -->
-                            </form>
-                        </div><!-- /.box -->
-                    </section><!-- /.content -->
-                </div>
-                <!-- /.content-wrapper -->
-                <jsp:include page="footer.jsp"></jsp:include>
-            <!-- Control Sidebar -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Nhóm danh mục</label>
+                                    <div class="col-sm-10">
+                                        <%
+                                            if (category.getCategoryGroup().equals("Nam")) {
+                                        %>
+                                        <input type="radio" name="groupDanhMuc" value='Nam' checked> Nam 
+                                        <input type="radio" name="groupDanhMuc" value='Nữ'> Nữ         
+                                        <%} else { %>
+                                        <input type="radio" name="groupDanhMuc" value='Nam'> Nam            
+                                        <input type="radio" name="groupDanhMuc" value='Nữ' checked> Nữ
+                                        <%}%>
 
-        </div>
-        <!-- ./wrapper -->
-        <!-- jQuery 2.2.3 -->
-       <script src="${pageContext.request.contextPath}/admin/content/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+                                    </div>
+                                </div>
+                            </div><!-- /.box-body -->
+                            <div class="box-footer">
+                                <a href='manager_category.jsp' class="btn btn-default">Hủy</a> 
+                                <input type="hidden" name="command" value="update">
+                                <input type="hidden" name="category_id" value="<%=categoryID%>">
+                                <input type="submit" class="btn btn-success pull-right" value='Lưu'/>
+                            </div><!-- /.box-footer -->
+                        </form>
+                    </div><!-- /.box -->
+                </section><!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+            <jsp:include page="footer.jsp"></jsp:include>
+                <!-- Control Sidebar -->
+
+            </div>
+            <!-- ./wrapper -->
+            <!-- jQuery 2.2.3 -->
+            <script src="${pageContext.request.contextPath}/admin/content/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/admin/content/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <!-- Bootstrap 3.3.6 -->
         <!-- SlimScroll -->
