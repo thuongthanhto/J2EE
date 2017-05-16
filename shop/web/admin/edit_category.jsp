@@ -106,7 +106,7 @@
                                 <a href='manager_category.jsp' class="btn btn-default">Hủy</a> 
                                 <input type="hidden" name="command" value="update">
                                 <input type="hidden" name="category_id" value="<%=categoryID%>">
-                                <input type="submit" class="btn btn-success pull-right" value='Lưu'/>
+                                <input type="submit" class="btn btn-success pull-right" value='Cập nhật'/>
                             </div><!-- /.box-footer -->
                         </form>
                     </div><!-- /.box -->

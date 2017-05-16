@@ -1,10 +1,11 @@
-<%-- 
-    Document   : manager_product
-    Created on : May 14, 2017, 8:51:57 AM
-    Author     : ThuongIT
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.Product"%>
+<%@page import="dao.ProductDAO"%>
+<%@page import="model.Category"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.CategoryDAO"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +13,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Admin</title>
         <!-- Tell the browser to be responsive to screen width -->
+         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
         <link href="${pageContext.request.contextPath}/admin/content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -33,6 +35,26 @@
         <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
+
+        <%
+            ProductDAO productDAO = new ProductDAO();
+            
+            int pages = 1;
+            int recordsPerPage = 5;
+            if (request.getParameter("pages") != null) {
+                pages = (int) Integer.parseInt(request.getParameter("pages"));
+            }
+            
+            String keyword = "";
+            if (request.getParameter("keyword") != null) {
+                keyword = request.getParameter("keyword");
+            }
+
+            ArrayList<Product> listProduct = productDAO.getListProductPageList(keyword, (pages-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = productDAO.countProduct();       
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        %>
+
         <!-- Site wrapper -->
         <div class="wrapper">
             <jsp:include page="header.jsp"></jsp:include>
@@ -45,13 +67,13 @@
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <h1>
-                            Quản lý sản phẩm
+                            Danh mục sản phẩm
 
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
                             <li><a href="#">Sản phẩm</a></li>
-                            <li class="active">Danh sách</li>
+                            <li class="active">Danh mục sản phẩm</li>
                         </ol>
                     </section>
                     <!-- Main content -->
@@ -67,61 +89,95 @@
                             </div>
                             <div class="box-body">
                                 <di class="row">
+                                    <form method="get" action="/shop/ManagerProductServlet">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="<%=keyword%>" placeholder="Từ khóa">
+                                                 <input type="hidden" name="command" value="search">
+                                                <span class="input-group-btn">  
+                                                    <button class="btn btn-default" type="submit" > 
+                                                        Tìm kiếm
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+
                                     <div class="col-md-6">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
-                                            </span>
-                                        </div><!-- /input-group -->
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-success" ui-sref="product_add">Thêm mới</button>
+                                        <button onclick="window.location.href='insert_product.jsp'" class="btn btn-success">Thêm mới</button>
                                     </div>
                                 </di>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="row">                                                                              
+                                <div class="col-md-12">
                                         <table class="table table-bordered">
                                             <tr>
-                                                <th style="width: 5%">ID</th>
-                                                <th style="width:55%">Tên sản phẩm</th>
-                                                <th style="width: 20%">Ngày tạo</th>
-                                                <th style="width: 10%">Trạng thái</th>
+                                                <th style="width: 5%">STT</th>
+                                                <th style="width: 10%">Hình ảnh</th>
+                                                <th style="width: 15%">Tên sản phẩm</th>
+                                                <th style="width:10%">Thể loại</th>
+                                                <th style="width: 10%">Giá bán</th>
+                                                <th style="width: 40%">Diễn giải</th>
                                                 <th style="width: 10%">Thao tác</th>
                                             </tr>
-                                            <tr ng-repeat="item in products">
-                                                <td>{{item.ID}}</td>
-                                                <td>{{item.Name}}</td>
-                                                <td>
-                                                    {{item.CreatedDate| date:'dd/MM/yyyy hh:mm:ss'}}
-                                                </td>
-                                                <!--class="badge bg-red"-->
-                                                <td>
-                                                    <span ng-class="{'badge bg-red':item.Status == false,'badge bg-green':item.Status == true}">
-                                                        {{item.Status| statusFilter}}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary" ui-sref="product_edit({id:item.ID})"><i class="fa fa-pencil"></i></button>
-                                                    <button class="btn  btn-sm btn-danger" ng-click="deleteProduct(item.ID)"><i class="fa fa-trash"></i></button>
-                                                </td>
+                                        <%                                            
+                                            int count1 = 0;
+                                            for (Product product : listProduct) {
+                                                count1++;
+                                        %>
+                                        <tr>
+                                            <td><%=count1%></td>
+                                            <td>                                   
+                                                <img src="<%=product.getProductImage()%>" class="img-responsive" alt="<%=product.getProductImage()%>">
+                                            </td>                                   
+                                            <td><%=product.getProductName() %></td>
+                                             <td><%=product.getCategoryName() %></td>
+                                            <td>
+                                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=product.getProductPrice() %>" />
+                                            </td>
+                                             <td><%=product.getProductDescription() %></td>
+                                            <td>			                    		
+                                                <a class="btn btn-sm btn-primary" href="update_product.jsp?command=update&productid=<%=product.getProductID()%>">
+                                                    <i class="fa fa-pencil"></i>
+                                               </a>                                                
+                                                <button class="btn  btn-sm btn-danger" onclick="deleteRecord(<%=product.getProductID()%>);">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6"><span class="pull-right">Trang: <%=(pages)%> - Tổng số bản ghi: <%=noOfRecords%></span></td>
                                             </tr>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="6"><span class="pull-right">Trang: {{page + 1}} - Tổng số bản ghi: {{totalCount}}</span></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                        </tfoot>
+                                    </table>                                     
                                 </div>
-                            </div><!-- /.box-body -->
-                            <div class="box-footer">
-                                <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="getProducts(page)"></pager-directive>
-                            </div><!-- /.box-footer-->
-                        </div><!-- /.box -->
-                    </section><!-- /.content -->
-                </div>
-                <!-- /.content-wrapper -->
+                                            
+                            </div>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                           
+                            <ul class="pagination pagination-sm">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <%for (int i = 1; i <= noOfPages; i++) {%>
+                                    <li><a href="${pageContext.request.contextPath}/admin/manager_product.jsp?&pages=<%=i%>"><%=i%></a></li>
+                                <%}%>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+                </section><!-- /.content -->
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
             <jsp:include page="footer.jsp"></jsp:include>
             <!-- Control Sidebar -->
 
@@ -139,5 +195,35 @@
         <script src="${pageContext.request.contextPath}/admin/content/dist/js/app.min.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="${pageContext.request.contextPath}/admin/content/dist/js/demo.js"></script>
+        
+          <script language="javascript">
+            function deleteRecord(id){
+                var doIt=confirm('Bạn có muốn xóa sản phẩm này?');
+                if(doIt){
+                    var xhttp;
+                    var url = "/shop/ManagerProductServlet?command=delete&productidDele="+id;
+                                           
+                    if(window.XMLHttpRequest)
+                    {
+                        xhttp =new XMLHttpRequest();                                              
+                    }
+                    else
+                    {
+                        xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                                           
+                    xhttp.onreadystatechange = function(){
+                    if(xhttp.readyState == 4)
+                    {
+                        alert('Xóa thành công');
+                        window.location.reload();
+                    }
+                }
+                                           
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }
+        }
+      </script>
     </body>
 </html>

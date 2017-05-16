@@ -16,6 +16,7 @@ public class Product {
     private String productImage;
     private long productPrice;
     private String productDescription;
+    private String categoryName;
     
     public Product() {
     }
@@ -78,4 +79,11 @@ public class Product {
     }
     
     
+     public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

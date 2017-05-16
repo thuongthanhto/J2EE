@@ -15,7 +15,7 @@ import model.Product;
 
 /**
  *
- * @author TUNGDUONG
+ * @author ThuongIT
  */
 public class ProductDAO {
 
@@ -88,6 +88,57 @@ public class ProductDAO {
             count = rs.getInt(1);
         }
         return count;  
+    }
+    
+    // tính tổng số sản phẩm - không theo thể loại
+    public int countProduct() throws SQLException{
+        Connection connection = DBConnect.getConnection();
+        String sql = "SELECT count(product_id) FROM product";
+        PreparedStatement ps = connection.prepareCall(sql);
+        ResultSet rs = ps.executeQuery();
+        int count = 0;
+        while (rs.next()) {
+            count = rs.getInt(1);
+        }
+        return count;  
+    }
+    
+    // lấy danh sách sản phẩm - amdin
+    public ArrayList<Product> getListProductPageList(String keyword, int firstResult, int maxResult) throws SQLException{
+        Connection connection = DBConnect.getConnection();
+        //String sql = "SELECT * FROM shop.product order by product_id desc limit ?,? ";
+        //String sql = "SELECT product.*, category.category_name FROM product join category on product.category_id = category.category_id order by product_id desc limit ?,?";
+        String sql = "";
+        if(keyword.length() != 0)
+        {
+            sql = "SELECT product.*, category.category_name FROM product join category on product.category_id = category.category_id where product.product_name like '%"+keyword+"%' or product.product_description like '%"+keyword+"%' or category.category_name like '%"+keyword+"%' order by product_id desc limit ?,?";
+        }
+        else
+        {
+            sql = "SELECT product.*, category.category_name FROM product join category on product.category_id = category.category_id order by product_id desc limit ?,?";
+        }
+        
+        PreparedStatement ps = connection.prepareCall(sql);
+
+        int page = firstResult ;
+        ps.setInt(1, page);
+        ps.setInt(2, maxResult);
+        ResultSet rs = ps.executeQuery();
+         ArrayList<Product> list = new ArrayList<>();
+        while (rs.next()) {
+            Product product = new Product();
+            product.setProductID(rs.getLong("product_id"));
+            product.setProductName(rs.getString("product_name"));
+            product.setProductImage(rs.getString("product_image"));
+            product.setProductPrice(rs.getLong("product_price"));
+            product.setProductDescription(rs.getString("product_description"));
+            
+            product.setCategoryID(rs.getLong("category_id"));
+            product.setCategoryName(rs.getString("category_name"));
+            
+            list.add(product);
+        }
+        return list;
     }
     
     public static void main(String[] args) throws SQLException {

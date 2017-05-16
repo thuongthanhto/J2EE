@@ -122,7 +122,7 @@
                                                 <%=category.getCategoryGroup()%>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-primary" onclick="window.location.href='edit_category.jsp?categoryID=<%=category.getCategoryID()%>'"><i class="fa fa-pencil"></i></button>
+                                                <a class="btn btn-sm btn-primary" href="edit_category.jsp?categoryID=<%=category.getCategoryID()%>"><i class="fa fa-pencil"></i></a>
                                                 <a class="btn  btn-sm btn-danger" href="/shop/ManagerCategoryServlet?command=delete&category_id=<%=category.getCategoryID()%>"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
