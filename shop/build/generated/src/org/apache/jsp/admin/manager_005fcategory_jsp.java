@@ -91,11 +91,16 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
 
             int pages = 1;
             int recordsPerPage = 5;
+
             if (request.getParameter("pages") != null) {
                 pages = (int) Integer.parseInt(request.getParameter("pages"));
             }
-            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList((pages-1)*recordsPerPage, recordsPerPage);
-            
+            String keyword = "";
+            if (request.getParameter("keyword") != null) {
+                keyword = request.getParameter("keyword");
+            }
+            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList(keyword, (pages - 1) * recordsPerPage, recordsPerPage);
+
             int noOfRecords = categoryDAO.countCategory();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
         
@@ -138,29 +143,40 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
       out.write("                                </div>\n");
       out.write("                            </div>\n");
       out.write("                            <div class=\"box-body\">\n");
-      out.write("                                <di class=\"row\">\n");
-      out.write("                                    <div class=\"col-md-6\">\n");
-      out.write("                                        <div class=\"input-group\">\n");
-      out.write("                                            <input type=\"text\" class=\"form-control\" ng-model=\"keyword\" placeholder=\"Từ khóa\">\n");
-      out.write("                                            <span class=\"input-group-btn\">\n");
-      out.write("                                                <button class=\"btn btn-default\" type=\"button\" ng-click=\"search()\">Tìm kiếm</button>\n");
-      out.write("                                            </span>\n");
-      out.write("                                        </div><!-- /input-group -->\n");
-      out.write("                                    </div>\n");
-      out.write("                                    <div class=\"col-md-6\">\n");
-      out.write("                                        <button onclick=\"window.location.href='insert_category.jsp'\" class=\"btn btn-success\">Thêm mới</button>\n");
-      out.write("                                    </div>\n");
-      out.write("                                </di>\n");
       out.write("                                <div class=\"row\">\n");
-      out.write("                                    <div class=\"col-md-12\">\n");
-      out.write("                                        <table class=\"table table-bordered\">\n");
-      out.write("                                            <tr>\n");
-      out.write("                                                <th style=\"width: 5%\">STT</th>\n");
-      out.write("                                                <th style=\"width:10%\">Mã danh mục</th>\n");
-      out.write("                                                <th style=\"width: 35%\">Tên danh mục</th>\n");
-      out.write("                                                <th style=\"width: 35%\">Nhóm danh mục</th>\n");
-      out.write("                                                <th style=\"width: 15%\">Thao tác</th>\n");
-      out.write("                                            </tr>\n");
+      out.write("\n");
+      out.write("                                    <div class=\"col-md-6\">\n");
+      out.write("                                        <form method=\"get\" action=\"/shop/ManagerCategoryServlet\">\n");
+      out.write("                                            <div class=\"input-group\">\n");
+      out.write("                                                <input type=\"text\" class=\"form-control\" name=\"keyword\" value=\"");
+      out.print(keyword);
+      out.write("\" placeholder=\"Từ khóa\">\n");
+      out.write("                                            <input type=\"hidden\" name=\"command\" value=\"search\">\n");
+      out.write("                                            <span class=\"input-group-btn\">  \n");
+      out.write("                                                <button class=\"btn btn-default\" type=\"submit\" > \n");
+      out.write("                                                    Tìm kiếm\n");
+      out.write("                                                </button>\n");
+      out.write("                                            </span>\n");
+      out.write("                                        </div>\n");
+      out.write("                                    </form>\n");
+      out.write("\n");
+      out.write("                                </div>\n");
+      out.write("                                <div class=\"col-md-6\">\n");
+      out.write("                                    <button onclick=\"window.location.href = '");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("/admin/insert_category.jsp'\" class=\"btn btn-success\">Thêm mới</button>\n");
+      out.write("                                </div>\n");
+      out.write("                            </div>\n");
+      out.write("                            <div class=\"row\">\n");
+      out.write("                                <div class=\"col-md-12\">\n");
+      out.write("                                    <table class=\"table table-bordered\">\n");
+      out.write("                                        <tr>\n");
+      out.write("                                            <th style=\"width: 5%\">STT</th>\n");
+      out.write("                                            <th style=\"width:10%\">Mã danh mục</th>\n");
+      out.write("                                            <th style=\"width: 35%\">Tên danh mục</th>\n");
+      out.write("                                            <th style=\"width: 35%\">Nhóm danh mục</th>\n");
+      out.write("                                            <th style=\"width: 15%\">Thao tác</th>\n");
+      out.write("                                        </tr>\n");
       out.write("                                        ");
                                             int count = 0;
                                             for (Category category : listCategory) {
@@ -186,7 +202,9 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
       out.write("\n");
       out.write("                                            </td>\n");
       out.write("                                            <td>\n");
-      out.write("                                                <a class=\"btn btn-sm btn-primary\" href=\"edit_category.jsp?categoryID=");
+      out.write("                                                <a class=\"btn btn-sm btn-primary\" href=\"");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("/admin/edit_category.jsp?categoryID=");
       out.print(category.getCategoryID());
       out.write("\"><i class=\"fa fa-pencil\"></i></a>\n");
       out.write("                                                <a class=\"btn  btn-sm btn-danger\" href=\"/shop/ManagerCategoryServlet?command=delete&category_id=");
@@ -246,12 +264,12 @@ for (int i = 1; i <= noOfPages; i++) {
       out.write("            ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "footer.jsp", out, false);
       out.write("\n");
-      out.write("            <!-- Control Sidebar -->\n");
+      out.write("                <!-- Control Sidebar -->\n");
       out.write("\n");
-      out.write("        </div>\n");
-      out.write("        <!-- ./wrapper -->\n");
-      out.write("        <!-- jQuery 2.2.3 -->\n");
-      out.write("        <script src=\"");
+      out.write("            </div>\n");
+      out.write("            <!-- ./wrapper -->\n");
+      out.write("            <!-- jQuery 2.2.3 -->\n");
+      out.write("            <script src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("/admin/content/plugins/jQuery/jQuery-2.1.4.min.js\" type=\"text/javascript\"></script>\n");
       out.write("        <script src=\"");

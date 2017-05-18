@@ -38,6 +38,10 @@ public class ManagerCategoryServlet extends HttpServlet {
                     categoryDAO.deleteCategory(Long.parseLong(category_id));
                     url = "/admin/manager_category.jsp";
                     break;
+                case "search":
+                        String keyword = request.getParameter("keyword");
+                        url = "/admin/manager_category.jsp?pages=1&keyword=" + keyword;
+                        break;
             }
         } catch (Exception e) {
         }

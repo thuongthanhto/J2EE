@@ -65,8 +65,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                            <li><a href="#">Sản phẩm</a></li>
-                            <li><a ui-sref="product_categories">Danh mục</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/manager_category.jsp">Danh mục</a></li>
                             <li class="active">Sửa</li>
                         </ol>
                     </section>
@@ -103,7 +102,7 @@
                                 </div>
                             </div><!-- /.box-body -->
                             <div class="box-footer">
-                                <a href='manager_category.jsp' class="btn btn-default">Hủy</a> 
+                                <a href='${pageContext.request.contextPath}/admin/manager_category.jsp' class="btn btn-default">Hủy</a> 
                                 <input type="hidden" name="command" value="update">
                                 <input type="hidden" name="category_id" value="<%=categoryID%>">
                                 <input type="submit" class="btn btn-success pull-right" value='Cập nhật'/>

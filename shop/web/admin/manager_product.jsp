@@ -72,7 +72,6 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                            <li><a href="#">Sản phẩm</a></li>
                             <li class="active">Danh mục sản phẩm</li>
                         </ol>
                     </section>
@@ -88,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <di class="row">
+                                <div class="row">
                                     <form method="get" action="/shop/ManagerProductServlet">
                                         <div class="col-md-6">
                                             <div class="input-group">
@@ -106,19 +105,20 @@
                                     <div class="col-md-6">
                                         <button onclick="window.location.href='insert_product.jsp'" class="btn btn-success">Thêm mới</button>
                                     </div>
-                                </di>
-                                <div class="row">                                                                              
-                                <div class="col-md-12">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th style="width: 5%">STT</th>
+                                </div>
+                                                 <br>
+                                <div class="row">     
+                                    <div class="col-md-12">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 5%">STT</th>
                                                 <th style="width: 10%">Hình ảnh</th>
-                                                <th style="width: 15%">Tên sản phẩm</th>
-                                                <th style="width:10%">Thể loại</th>
+                                                <th style="width: 25%">Tên sản phẩm</th>
+                                                <th style="width:25%">Thể loại</th>
                                                 <th style="width: 10%">Giá bán</th>
-                                                <th style="width: 40%">Diễn giải</th>
-                                                <th style="width: 10%">Thao tác</th>
-                                            </tr>
+                                                <th style="width: 10%">Số lượng tồn</th>
+                                                <th style="width: 20%">Thao tác</th>
+                                        </tr>
                                         <%                                            
                                             int count1 = 0;
                                             for (Product product : listProduct) {
@@ -134,9 +134,9 @@
                                             <td>
                                                 <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=product.getProductPrice() %>" />
                                             </td>
-                                             <td><%=product.getProductDescription() %></td>
+                                             <td><%=product.getProductQuantity()%></td>
                                             <td>			                    		
-                                                <a class="btn btn-sm btn-primary" href="update_product.jsp?command=update&productid=<%=product.getProductID()%>">
+                                                <a class="btn btn-sm btn-primary" href="edit_product.jsp?productID=<%=product.getProductID()%>">
                                                     <i class="fa fa-pencil"></i>
                                                </a>                                                
                                                 <button class="btn  btn-sm btn-danger" onclick="deleteRecord(<%=product.getProductID()%>);">
@@ -147,12 +147,12 @@
                                         <%}%>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="6"><span class="pull-right">Trang: <%=(pages)%> - Tổng số bản ghi: <%=noOfRecords%></span></td>
+                                                <td colspan="7"><span class="pull-right">Trang: <%=(pages)%> - Tổng số bản ghi: <%=noOfRecords%></span></td>
                                             </tr>
                                         </tfoot>
-                                    </table>                                     
+                                    </table>
                                 </div>
-                                            
+                                
                             </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">

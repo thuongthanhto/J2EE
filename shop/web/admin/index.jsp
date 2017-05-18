@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Admin</title>
+    <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -46,13 +47,10 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Blank page
-                    <small>it all starts here</small>
+                    Trang chủ
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li><a href="#">Examples</a></li>
-                    <li class="active">Blank page</li>
+                    <li class="active">Trang chủ</li>
                 </ol>
             </section>
             <!-- Main content -->
@@ -60,7 +58,7 @@
                 <!-- Default box -->
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Title</h3>
+                        <h3 class="box-title">Trang chủ</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i>
@@ -71,11 +69,11 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        Start creating your amazing application!
+                        Vui lòng chọn chức năng ở menu bên trái
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        Footer
+                        
                     </div>
                     <!-- /.box-footer-->
                 </div>

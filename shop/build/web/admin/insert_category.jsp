@@ -11,6 +11,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Admin</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
@@ -51,8 +52,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                            <li><a href="#">Sản phẩm</a></li>
-                            <li><a ui-sref="product_categories">Danh mục</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/manager_category.jsp">Danh mục</a></li>
                             <li class="active">Thêm mới</li>
                         </ol>
                     </section>

@@ -16,7 +16,7 @@
             <!-- Logo -->
             <a href="../../index2.html" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-mini"><b>G</b>4</span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg"><b>Group 04</b></span>
             </a>
@@ -34,16 +34,15 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="content/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <img src="${pageContext.request.contextPath}/admin/content/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <span class="hidden-xs">Admin</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="${pageContext.request.contextPath}/admin/content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2017</small>
+                                        Admin
                                     </p>
                                 </li>
                                 <!-- Menu Body -->

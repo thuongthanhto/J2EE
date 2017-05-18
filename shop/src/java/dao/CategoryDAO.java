@@ -51,9 +51,17 @@ public class CategoryDAO {
         return list;
     }
     // lấy danh sách sản phẩm
-    public ArrayList<Category> getListCategoryPageList(int firstResult, int maxResult) throws SQLException{
+    public ArrayList<Category> getListCategoryPageList(String keyword, int firstResult, int maxResult) throws SQLException{
         Connection connection = DBConnect.getConnection();
-        String sql = "SELECT * FROM Category limit ?,?";
+        String sql = "";
+        if(keyword.length() != 0)
+        {
+            sql = "SELECT * FROM Category where category_id like '%"+keyword+"%' or category_name like '%"+keyword+"%' or category_group like '%"+keyword+"%' order by category_id desc limit ?,?";
+        }
+        else
+        {
+            sql = "SELECT * FROM Category order by category_id limit ?,?";
+        } 
         PreparedStatement ps = connection.prepareCall(sql);
         ps.setInt(1, firstResult);
         ps.setInt(2, maxResult);

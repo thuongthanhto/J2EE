@@ -34,8 +34,7 @@
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    </head>
+        <![endif]-->    </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
@@ -54,7 +53,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                            <li><a href="manager_product">Sản phẩm</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/manager_product.jsp">Sản phẩm</a></li>
                             <li class="active">Thêm mới</li>
                         </ol>
                     </section>
@@ -112,10 +111,11 @@
 		                    </div>
 		                    
 		                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Diễn giải</label>
+                                        <label class="col-sm-2 control-label">Mô tả</label>
                                         <div class="col-sm-8">
-                                            <input id="des" type="text" class="form-control" name="description" placeholder="Diễn giải">		                      	
+                                            <textarea id="des" type="text" class="form-control" name="description" placeholder="Diễn giải" rows="10" cols="80"></textarea>	                      	
                                             <span id="msgDes" style="color:red" hidden>Vui lòng nhập diễn giải!</span>
+                                            
                                         </div>		                      
 		                    </div>   
                                 </div>

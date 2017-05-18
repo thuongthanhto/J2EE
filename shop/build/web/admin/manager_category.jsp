@@ -14,6 +14,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Admin</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
@@ -42,11 +43,16 @@
 
             int pages = 1;
             int recordsPerPage = 5;
+
             if (request.getParameter("pages") != null) {
                 pages = (int) Integer.parseInt(request.getParameter("pages"));
             }
-            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList((pages-1)*recordsPerPage, recordsPerPage);
-            
+            String keyword = "";
+            if (request.getParameter("keyword") != null) {
+                keyword = request.getParameter("keyword");
+            }
+            ArrayList<Category> listCategory = categoryDAO.getListCategoryPageList(keyword, (pages - 1) * recordsPerPage, recordsPerPage);
+
             int noOfRecords = categoryDAO.countCategory();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
         %>
@@ -67,8 +73,7 @@
 
                         </h1>
                         <ol class="breadcrumb">
-                            <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                            <li><a href="#">Sản phẩm</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin/index.jsp"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
                             <li class="active">Danh mục sản phẩm</li>
                         </ol>
                     </section>
@@ -84,29 +89,37 @@
                                 </div>
                             </div>
                             <div class="box-body">
-                                <di class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
-                                            </span>
-                                        </div><!-- /input-group -->
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button onclick="window.location.href='insert_category.jsp'" class="btn btn-success">Thêm mới</button>
-                                    </div>
-                                </di>
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th style="width: 5%">STT</th>
-                                                <th style="width:10%">Mã danh mục</th>
-                                                <th style="width: 35%">Tên danh mục</th>
-                                                <th style="width: 35%">Nhóm danh mục</th>
-                                                <th style="width: 15%">Thao tác</th>
-                                            </tr>
+
+                                    <div class="col-md-6">
+                                        <form method="get" action="/shop/ManagerCategoryServlet">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="<%=keyword%>" placeholder="Từ khóa">
+                                            <input type="hidden" name="command" value="search">
+                                            <span class="input-group-btn">  
+                                                <button class="btn btn-default" type="submit" > 
+                                                    Tìm kiếm
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="window.location.href = '${pageContext.request.contextPath}/admin/insert_category.jsp'" class="btn btn-success">Thêm mới</button>
+                                </div>
+                            </div>
+                                <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th style="width: 5%">STT</th>
+                                            <th style="width:10%">Mã danh mục</th>
+                                            <th style="width: 35%">Tên danh mục</th>
+                                            <th style="width: 35%">Nhóm danh mục</th>
+                                            <th style="width: 15%">Thao tác</th>
+                                        </tr>
                                         <%                                            int count = 0;
                                             for (Category category : listCategory) {
                                                 count++;
@@ -122,7 +135,7 @@
                                                 <%=category.getCategoryGroup()%>
                                             </td>
                                             <td>
-                                                <a class="btn btn-sm btn-primary" href="edit_category.jsp?categoryID=<%=category.getCategoryID()%>"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/admin/edit_category.jsp?categoryID=<%=category.getCategoryID()%>"><i class="fa fa-pencil"></i></a>
                                                 <a class="btn  btn-sm btn-danger" href="/shop/ManagerCategoryServlet?command=delete&category_id=<%=category.getCategoryID()%>"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
@@ -159,12 +172,12 @@
             </div>
             <!-- /.content-wrapper -->
             <jsp:include page="footer.jsp"></jsp:include>
-            <!-- Control Sidebar -->
+                <!-- Control Sidebar -->
 
-        </div>
-        <!-- ./wrapper -->
-        <!-- jQuery 2.2.3 -->
-        <script src="${pageContext.request.contextPath}/admin/content/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+            </div>
+            <!-- ./wrapper -->
+            <!-- jQuery 2.2.3 -->
+            <script src="${pageContext.request.contextPath}/admin/content/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/admin/content/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <!-- Bootstrap 3.3.6 -->
         <!-- SlimScroll -->

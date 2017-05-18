@@ -15,20 +15,33 @@ public class Product {
     private String productName;
     private String productImage;
     private long productPrice;
+    private long productQuantity;
+
+    public long getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(long productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public Product(long productID, long categoryID, String productName, String productImage, long productPrice, long productQuantity, String productDescription, String categoryName) {
+        this.productID = productID;
+        this.categoryID = categoryID;
+        this.productName = productName;
+        this.productImage = productImage;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.productDescription = productDescription;
+        this.categoryName = categoryName;
+    }
     private String productDescription;
     private String categoryName;
     
     public Product() {
     }
 
-    public Product(long productID, long categoryID, String productName, String productImage, long productPrice, String productDescription) {
-        this.productID = productID;
-        this.categoryID = categoryID;
-        this.productName = productName;
-        this.productImage = productImage;
-        this.productPrice = productPrice;
-        this.productDescription = productDescription;
-    }
+    
 
     public long getProductID() {
         return productID;
