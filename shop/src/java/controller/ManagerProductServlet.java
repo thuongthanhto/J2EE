@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Product;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -54,12 +55,12 @@ public class ManagerProductServlet extends HttpServlet {
             {          
                 long idDelete = Long.parseLong(request.getParameter("productidDele"));
                 productDAO.delete(idDelete);
-                url = "admin/manager_product.jsp?pages=1";       
+                url = "/admin/manager_product.jsp";       
             }
             else if(command.equals("search"))
             {
                  String keyword = request.getParameter("keyword");
-                 url = "admin/manager_product.jsp?pages=1&keyword=" + keyword;    
+                 url = "/admin/manager_product.jsp?pages=1&keyword=" + keyword;    
             }
 	}
 	catch(Exception ex){
@@ -158,7 +159,7 @@ public class ManagerProductServlet extends HttpServlet {
                         try{
                             int count = productDAO.countProduct();  
                             String img = "upload/" + fileName;
-                           // productDAO.insert(new Product(count + 1,category_id, product_name, img, price, description));
+                            //productDAO.insert(new Product(count + 1,category_id, product_name, img, price, description));
                             url = "admin/manager_product.jsp?pages=1";  
                         }
                         catch(SQLException ex){

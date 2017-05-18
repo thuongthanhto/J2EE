@@ -56,6 +56,9 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
       out.write("        <meta charset=\"utf-8\">\n");
       out.write("        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n");
       out.write("        <title>Admin</title>\n");
+      out.write("        <link rel=\"icon\" href=\"");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("/images/icon.ico\" type=\"image/png\" />\n");
       out.write("        <!-- Tell the browser to be responsive to screen width -->\n");
       out.write("        <meta content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" name=\"viewport\">\n");
       out.write("        <!-- Bootstrap 3.3.6 -->\n");
@@ -126,8 +129,9 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
       out.write("\n");
       out.write("                        </h1>\n");
       out.write("                        <ol class=\"breadcrumb\">\n");
-      out.write("                            <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Trang chủ</a></li>\n");
-      out.write("                            <li><a href=\"#\">Sản phẩm</a></li>\n");
+      out.write("                            <li><a href=\"");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("/admin/index.jsp\"><i class=\"fa fa-dashboard\"></i> Trang chủ</a></li>\n");
       out.write("                            <li class=\"active\">Danh mục sản phẩm</li>\n");
       out.write("                        </ol>\n");
       out.write("                    </section>\n");
@@ -167,6 +171,7 @@ public final class manager_005fcategory_jsp extends org.apache.jasper.runtime.Ht
       out.write("/admin/insert_category.jsp'\" class=\"btn btn-success\">Thêm mới</button>\n");
       out.write("                                </div>\n");
       out.write("                            </div>\n");
+      out.write("                                <br>\n");
       out.write("                            <div class=\"row\">\n");
       out.write("                                <div class=\"col-md-12\">\n");
       out.write("                                    <table class=\"table table-bordered\">\n");
