@@ -68,7 +68,7 @@
                             <form action="/shop/ManagerProductServlet"  method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="box-body">
 		                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Sản phẩm</label>
+                                        <label class="col-sm-2 control-label">Tên sản phẩm</label>
                                         <div class="col-sm-8">
                                             <input onkeyup="InputProName()" id="proname" type="text" class="form-control" name="productname" placeholder="Sản phẩm">		                      	
                                             <span id="msgProductName" style="color:red" hidden>Vui lòng nhập tên sản phẩm!</span>
@@ -76,11 +76,11 @@
 		                    </div>  
 		                    
 		                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Thể loại</label>
+                                        <label class="col-sm-2 control-label">Danh mục</label>
                                         <div class="col-sm-8">
                                             <select name="categoryid" id="categoryid" class="form-control">
                                             <% 
-                        			out.print("<option value="+0+">--- Chọn thể loại ---</option>");
+                        			out.print("<option value="+0+">--- Chọn danh mục ---</option>");
                         			CategoryDAO categoryDAO = new CategoryDAO();
 		                    		ArrayList<Category>  listCategory = categoryDAO.getListCategory();
                         			if(listCategory != null){
@@ -102,10 +102,18 @@
                                         </div>		                      
 		                    </div>
 		                    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Số lượng</label>
+                                        <div class="col-sm-8">
+                                            <input onkeypress="return isNumberKey(event)" id="quantity" type="text" class="form-control" name="quantity" placeholder="Số lượng">		                      	
+                                            <span id="msgQuantity" style="color:red" hidden>Vui lòng nhập số lượng!</span>
+                                        </div>		                      
+		                    </div>        
+                                            
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Hình ảnh</label>
                                         <div class="col-sm-8">
-                                            <input type="file" id="file" name="file" name="uploadFile" class="btn btn-white btn-warning btn-bold">	   
+                                            <input onchange="readURL(this);" type="file" id="file" name="files[]"  class="btn btn-white btn-warning btn-bold">	   
                                             <span id="msgImg" style="color:red" hidden>Vui lòng chọn file ảnh!</span>
                                         </div>		                      
 		                    </div>
@@ -119,7 +127,6 @@
                                         </div>		                      
 		                    </div>   
                                 </div>
-		                 
 		                 <div class="box-footer">
                                     <a href='manager_product.jsp' class="btn btn-default">Hủy</a> 
                                     <input type="hidden" name="command" value="insert"> 
@@ -185,6 +192,15 @@
                     if($('#price').val() == "")
                     {
                         $('#msgPrice').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgPrice').prop('hidden', true);
+                    }
+                    
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
                     }
                     else
                     {

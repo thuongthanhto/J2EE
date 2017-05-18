@@ -4,12 +4,10 @@
     Author     : ThuyenBu
 --%>
 
-<%@page import="dao.ProductDAO"%>
-<%@page import="model.Product"%>
 <%@page import="model.Category"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.CategoryDAO"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,13 +25,12 @@
     <body class="hold-transition skin-blue sidebar-mini">
 
         <%
-            ProductDAO productDAO = new ProductDAO();
-            Product product = new Product();
-            String productID = "";
-            if (request.getParameter("productID") != null) {
-                productID = request.getParameter("productID");
-                product = productDAO.getProduct(Long.parseLong(productID));
-            }
+                long idPro = Long.parseLong(request.getParameter("productid"));
+                long category = Long.parseLong(request.getParameter("cateId"));
+                String productName = request.getParameter("productName");
+                long proPrice = Long.parseLong(request.getParameter("productPrice"));
+                String proDes = request.getParameter("productDes");
+                String imgPro = request.getParameter("imgPro");
         %>
 
         <!-- Site wrapper -->
@@ -65,13 +62,14 @@
                                 <h3 class="box-title">Thông tin sản phẩm</h3>
                             </div><!-- /.box-header -->
                             <!-- form start -->
-                            <form action="/shop/UpdateProductServlet" method="post" class="form-horizontal">
+                            <form action="/shop/UpdateProductServlet" method="post" class="form-horizontal" enctype="multipart/form-data">
                                 <div class="box-body">
-                                    <input type="text" hidden name="product_id" value="<%=productID%>">
+                                    <div class="col-sm-11">
+                                         <input type="text" hidden name="product_id" value="<%=idPro%>">
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Sản phẩm</label>
                                         <div class="col-sm-8">
-                                            <input id="proname" type="text" class="form-control" name="productname" value="<%=product.getProductName()%>" placeholder="Tên sản phẩm">		                      	
+                                            <input id="proname" type="text" class="form-control" name="productname" value="<%=productName%>" placeholder="<%=productName%>">		                      	
                                             <span id="msgProductName" style="color:red" hidden>Vui lòng nhập tên sản phẩm!</span>
                                         </div>		                      
 		                    </div>  
@@ -86,17 +84,17 @@
 		                    		ArrayList<Category>  listCategory = categoryDAO.getListCategory();
                         			if(listCategory != null){
                                                     
-                                                    for(Category category : listCategory){   
-                                                        if(category.getCategoryID() == product.getCategoryID())
+                                                    for(Category cate : listCategory){   
+                                                        if(cate.getCategoryID() == category)
                                                         {
-                                                            out.print("<option value="+category.getCategoryID()+">"+ category.getCategoryName() +"</option>");
+                                                            out.print("<option value="+cate.getCategoryID()+">"+ cate.getCategoryName() +"</option>");
                                                             
                                                         }
                                                         
                                                     }
                                                     
                                                     for(Category cate : listCategory){
-                                                        if(cate.getCategoryID() != product.getCategoryID())
+                                                        if(cate.getCategoryID() != category)
                                                         {
                                                             out.print("<option value="+cate.getCategoryID()+">"+ cate.getCategoryName() +"</option>");
                                                         }
@@ -112,18 +110,32 @@
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Đơn giá</label>
                                         <div class="col-sm-8">
-                                            <input onkeypress="return isNumberKey(event)" id="price" type="text" class="form-control" value="<%=product.getProductPrice()%>" name="price" placeholder="Đơn giá">		                      	
+                                            <input onkeypress="return isNumberKey(event)" id="price" type="text" class="form-control" value="<%=proPrice%>" name="price" placeholder="Đơn giá">		                      	
                                             <span id="msgPrice" style="color:red" hidden>Vui lòng nhập đơn giá!</span>
                                         </div>		                      
 		                    </div>
+                                            
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Hình ảnh</label>
+                                        <div class="col-sm-8">
+                                            <input onchange="readURL(this);" value="<%=imgPro%>" type="file" id="file" name="files[]"  class="btn btn-white btn-warning btn-bold">	                                            
+                                        </div>		                      
+		                    </div>       
 		                    	                   
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Diễn giải</label>
                                         <div class="col-sm-8">
-                                            <input id="des" type="text" class="form-control" value="<%=product.getProductDescription()%>" name="description" placeholder="Diễn giải">		                      	
+                                            <input id="des" type="text" class="form-control" value="<%=proDes%>" name="description" placeholder="Diễn giải">		                      	
                                             <span id="msgDes" style="color:red" hidden>Vui lòng nhập diễn giải!</span>
                                         </div>		                      
-		                    </div>   
+		                    </div> 
+                                        
+                                    </div>
+                                            
+                                    <div class="col-sm-1">
+                                        <img width="160" height="230" alt="Hình ảnh" style="margin-left: -130px; border:1px solid black;" id="showAvatar" >            
+                                    </div>
+                                     
                                 </div>
 		                 
 		                 <div class="box-footer">
@@ -162,6 +174,18 @@
                 })
             });
             
+        </script>
+        
+        <script language="javascript">  
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#showAvatar').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
         </script>
         
         <script language="javascript">  
