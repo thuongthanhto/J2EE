@@ -8,6 +8,7 @@ package controller;
 import dao.ProductDAO;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,13 +28,13 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author ThuyenBu
  */
-@WebServlet("/ManagerProductServlet")
+@WebServlet(name = "UpdateProductServlet", urlPatterns = {"/UpdateProductServlet"})
 @MultipartConfig
-public class ManagerProductServlet extends HttpServlet {
-
+public class UpdateProductServlet extends HttpServlet {
+    
     ProductDAO productDAO  = new ProductDAO();
     
-      // location to store file uploaded
+    // location to store file uploaded
     private static final String UPLOAD_DIRECTORY = "upload";
 
     // upload settings
@@ -44,30 +45,7 @@ public class ManagerProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-	response.setCharacterEncoding("UTF-8");
         
-        String command = request.getParameter("command");         
-
-        String url = "";
-        try{       
-            if(command.equals("delete"))
-            {          
-                long idDelete = Long.parseLong(request.getParameter("productidDele"));
-                productDAO.delete(idDelete);
-                url = "/admin/manager_product.jsp";       
-            }
-            else if(command.equals("search"))
-            {
-                 String keyword = request.getParameter("keyword");
-                 url = "admin/manager_product.jsp?pages=1&keyword=" + keyword;    
-            }
-	}
-	catch(Exception ex){
-            Logger.getLogger(ManagerProductServlet.class.getName()).log(Level.SEVERE, null, ex);
-	}
-       
-        response.sendRedirect(url); 
     }
 
     @Override
@@ -75,15 +53,16 @@ public class ManagerProductServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
+   
         String url = "";
         
         // checks if the request actually contains upload file
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
-            return;
+            return ;
         }
         
-       // configures upload settings
+        // configures upload settings
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // sets memory threshold - beyond which files are stored in disk 
         factory.setSizeThreshold(MEMORY_THRESHOLD);
@@ -120,6 +99,7 @@ public class ManagerProductServlet extends HttpServlet {
             String description = request.getParameter("description");*/
             
             String product_name = "";
+            long id = 0;
             long category_id = 0;
             long price = 0;
             long quantity = 0;
@@ -133,35 +113,54 @@ public class ManagerProductServlet extends HttpServlet {
                 for (FileItem item : formItems) {
                     i = i + 1;
                     if(i == 1){     
+                         id = Long.parseLong(item.getString());
+                       
+                    }
+                     else if(i == 2){
                         product_name = new String(item.getString().getBytes("iso-8859-1"), "UTF-8");
                     }
-                    else if(i == 2){
+                    else if(i == 3){
                         category_id = Long.parseLong(item.getString());
                     }
-                    else if(i == 3){
+                    else if(i == 4){
                         String valuePrice = item.getString().replace(",", "").replace(".", "");
                         price = Long.parseLong(valuePrice);
                     }
-                    else if(i == 4){                
+                    else if(i == 5){
+                       
                         quantity = Long.parseLong(item.getString());
                     }
                     else if (!item.isFormField()) 
                     {
                         fileName = new File(item.getName()).getName();
-                        filePath = uploadPath + File.separator + fileName;
-                        File storeFile = new File(filePath);
-                        // saves the file on disk
-                        item.write(storeFile);
-                    }                 
-                    else if(i == 6){
+                        
+                        if(fileName.length() != 0)
+                        {
+                             filePath = uploadPath + File.separator + fileName;
+                            File storeFile = new File(filePath);
+
+                            // saves the file on disk
+                            item.write(storeFile);
+                        }                     
+                    }               
+                    else if(i == 7){
                         description = new String(item.getString().getBytes("iso-8859-1"), "UTF-8");
                         
                         try{
-                            int count = productDAO.countProduct();  
-                            String img = "upload/" + fileName;
-                            String cateName = "";
-                            productDAO.insert(new Product(count + 1,category_id, product_name, img, price, quantity, description, cateName));
-                            url = "admin/manager_product.jsp?pages=1";  
+                            if(fileName.length() == 0) // không cập nhật avatar
+                            {
+                                 String img = "upload/" + fileName;        
+                                 String cateName = "";
+                                 productDAO.update(new Product(id, category_id, product_name, fileName, price, quantity , description, cateName));
+                                 url = "admin/manager_product.jsp?pages=1";                        
+                            }
+                            else
+                            {
+                                 String img = "upload/" + fileName;                
+                                 String cateName = "";
+                                 productDAO.update(new Product(id, category_id, product_name, img, price, quantity , description, cateName));
+                                 url = "admin/manager_product.jsp?pages=1"; 
+                            } 
                         }
                         catch(SQLException ex){
                             Logger.getLogger(ManagerProductServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,9 +170,12 @@ public class ManagerProductServlet extends HttpServlet {
                 }
             }   
         } catch (Exception ex) {
+            //request.setAttribute("message", "There was an error: " + ex.getMessage());
             url = "/admin/insert_product.jsp";
         }
         
         response.sendRedirect(url);
+        
     }
+
 }

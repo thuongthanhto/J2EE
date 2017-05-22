@@ -37,8 +37,10 @@
         <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
-
         <%
+            if (session.getAttribute("userAdmin") == null) {
+                response.sendRedirect("/shop/admin/login.jsp");
+            }
             CategoryDAO categoryDAO = new CategoryDAO();
 
             int pages = 1;

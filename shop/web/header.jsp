@@ -7,6 +7,7 @@
 <%@page import="model.Cart"%>
 <%@page import="model.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -41,7 +42,7 @@
                                     if (session.getAttribute("user") != null) {
                                 %>
                                  <li><a href="#"><%=users.getUserName()%></a></li>
-                                  <li><a href="#"> Đăng xuất </a></li>
+                                  <li><a href="UsersServlet"> Đăng xuất </a></li>
                             <%
                                 }else
                                 {
@@ -77,7 +78,7 @@
                                 <div class="cart box_1">
                                     <a href="checkout.jsp">
                                         <h3> <div class="total">
-                                                <span ><%=cart.totalCart()%></span> (<span><%=cart.count()%></span> items)</div>
+                                            <span ><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=cart.totalCart()%>" /></span> (<span><%=cart.count()%></span> items)</div>
                                         <img src="images/bag.png" alt="">
                                     </h3>
                                 </a>

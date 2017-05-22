@@ -9,6 +9,7 @@
 <html><head>
         <title>Shop Thời Trang</title>
         <!--css-->
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
         <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
         <link href="css/font-awesome.css" rel="stylesheet">

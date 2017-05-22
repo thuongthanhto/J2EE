@@ -17,6 +17,7 @@
     <head>
         <title>Shop Thời Trang</title>
         <!--css-->
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
         <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/font-awesome.css" rel="stylesheet">
@@ -130,7 +131,9 @@
                                                             <figure>		
                                                                 <a href="single.jsp?productID=<%=p.getProductID()%>" class="new-gri" data-toggle="modal" data-target="#myModal1">
                                                                     <div class="grid-img">
-                                                                        <img  src="<%=p.getProductImage()%>" class="img-responsive" alt="<%=p.getProductName()%>">
+                                                                        <a href="single.jsp?productID=<%=p.getProductID()%>">
+                                                                            <img  src="<%=p.getProductImage()%>" class="img-responsive" alt="<%=p.getProductName()%>">
+                                                                        </a>
                                                                     </div>		
                                                                 </a>		
                                                             </figure>	

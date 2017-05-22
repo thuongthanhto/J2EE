@@ -16,6 +16,14 @@
         <servlet-name>ManagerCategoryServlet</servlet-name>
         <servlet-class>controller.ManagerCategoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManagerBillServlet</servlet-name>
+        <servlet-class>controller.ManagerBillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginAdminServlet</servlet-name>
+        <servlet-class>controller.LoginAdminServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/CartServlet</url-pattern>
@@ -31,6 +39,14 @@
     <servlet-mapping>
         <servlet-name>ManagerCategoryServlet</servlet-name>
         <url-pattern>/ManagerCategoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerBillServlet</servlet-name>
+        <url-pattern>/ManagerBillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAdminServlet</servlet-name>
+        <url-pattern>/LoginAdminServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

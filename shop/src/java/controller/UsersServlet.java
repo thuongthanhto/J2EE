@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Users;
+import tools.MD5;
 
 /**
  *
@@ -23,6 +24,13 @@ public class UsersServlet extends HttpServlet {
 
     UsersDAO usersDAO = new UsersDAO();
    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {       
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("index.jsp");
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,14 +45,14 @@ public class UsersServlet extends HttpServlet {
                 users.setUserID(new java.util.Date().getTime());
                 users.setUserEmail(request.getParameter("Email"));
                 users.setUserName(request.getParameter("Name"));
-                users.setUserPass(request.getParameter("Password"));
+                users.setUserPass(MD5.encryption(request.getParameter("Password")));
                 users.setUserRole(false);
                 usersDAO.insertUser(users);
                 session.setAttribute("user", users);
                 url = "/index.jsp";
                 break;
             case "login":
-                users = usersDAO.login(request.getParameter("Email"), request.getParameter("Password"));
+                users = usersDAO.login(request.getParameter("Email"), MD5.encryption(request.getParameter("Password")));
                 if (users != null){
                     session.setAttribute("user", users);
                     url = "/index.jsp";

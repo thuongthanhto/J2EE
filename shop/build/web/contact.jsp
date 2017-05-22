@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html><head>
         <title>Shop Thời Trang</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <!--css-->
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
         <link href="css/style.css" rel="stylesheet" type="text/css" media="all">

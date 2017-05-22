@@ -51,6 +51,15 @@ public class CartServlet extends HttpServlet {
                         cart.plusToCart(idProduct, new Item(product, 1));
                     }
                     break;
+                case "single":
+                    if (cart.getCartItems().containsKey(idProduct)) {
+                        cart.plusToCart(idProduct, new Item(product,
+                                cart.getCartItems().get(idProduct).getQuantity()));
+                    } else {
+                        cart.plusToCart(idProduct, new Item(product, 1));
+                    }
+                    
+                    break;
                 case "remove":
                     cart.removeToCart(idProduct);
                     break;
@@ -62,11 +71,14 @@ public class CartServlet extends HttpServlet {
         if (command == "remove"){
             session.setAttribute("cart", cart);
             response.sendRedirect("/shop/checkout.jsp");
-        }else
-        {
+        }else if (command.equals("plus")){
             session.setAttribute("cart", cart);
             response.sendRedirect("product.jsp?categoryID="+categoryID+"&pages=1");
+        }else if (command.equals("single")){
+            session.setAttribute("cart", cart);
+            response.sendRedirect("single.jsp?productID="+productID);
         }
+        
     }
 
 }

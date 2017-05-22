@@ -7,11 +7,13 @@
 <%@page import="tools.FormatPrice"%>
 <%@page import="model.Product"%>
 <%@page import="dao.ProductDAO"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
     <head>
         <title>Shop Thời Trang</title>
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <!--css-->
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
         <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -114,21 +116,22 @@
                                 <div class="single-left">
                                     <div class="flexslider">
                                         <ul class="slides">
-                                            <li data-thumb="images/si.jpg">
-                                                <div class="thumb-image"> <img src="images/si.jpg" data-imagezoom="true" class="img-responsive"> </div>
+                                            <li data-thumb="${pageContext.request.contextPath}/<%=product.getProductImage()%>">
+                                                <div class="thumb-image"> <img src="${pageContext.request.contextPath}/<%=product.getProductImage()%>" data-imagezoom="true" class="img-responsive"> </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="single-right simpleCart_shelfItem">
                                     <h4><%=product.getProductName()%></h4>
-                                    <p class="price item_price"><%=format.formatNumber(product.getProductPrice())%> VND</p>
+                                    
+                                    <p class="price item_price"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=product.getProductPrice() %>" /> VND</p>
                                     <div class="description">
                                         <p><span>Mô tả ngắn : </span> <%=product.getProductDescription()%> </p>
                                     </div>
                                     <div class="women">
                                         <span class="size">XL / XXL / S </span>
-                                        <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
+                                        <a href="CartServlet?command=single&productID=<%=product.getProductID()%>" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
                                     </div>
                                     <div class="social-icon">
                                         <a href="#"><i class="icon"></i></a>

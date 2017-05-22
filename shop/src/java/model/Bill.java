@@ -19,17 +19,23 @@ public class Bill {
     private String phone;
     private String address;
     private Timestamp date;
+    private int paid;
+    private int status;
 
     public Bill() {
     }
 
-    public Bill(long billID, long userID, double total, String phone, String address, Timestamp date) {
+    public Bill(long billID, long userID, double total, 
+                String phone, String address, Timestamp date,
+                int paid, int status) {
         this.billID = billID;
         this.userID = userID;
         this.total = total;
         this.phone = phone;
         this.address = address;
         this.date = date;
+        this.paid = paid;
+        this.status = status;
     }
 
     public long getBillID() {
@@ -78,6 +84,22 @@ public class Bill {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+    
+    public int getPaid() {
+        return paid;
+    }
+
+    public void setPaid(int paid) {
+        this.paid = paid;
+    }
+    
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

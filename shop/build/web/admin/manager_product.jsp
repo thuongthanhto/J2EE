@@ -14,6 +14,7 @@
         <title>Admin</title>
         <!-- Tell the browser to be responsive to screen width -->
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+         <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
         <link href="${pageContext.request.contextPath}/admin/content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -37,6 +38,9 @@
     <body class="hold-transition skin-blue sidebar-mini">
 
         <%
+            if (session.getAttribute("userAdmin") == null) {
+                response.sendRedirect("/shop/admin/login.jsp");
+            }
             ProductDAO productDAO = new ProductDAO();
             
             int pages = 1;
@@ -108,8 +112,8 @@
                                 </div>
                                                  <br>
                                 <div class="row">     
-                                    <div class="col-md-12">
-                                    <table class="table table-bordered">
+                                    <div class="col-md-12 table-responsive">
+                                    <table class="table table-bordered ">
                                         <tr>
                                             <th style="width: 5%">STT</th>
                                                 <th style="width: 10%">Hình ảnh</th>
@@ -127,7 +131,7 @@
                                         <tr>
                                             <td><%=count1%></td>
                                             <td>                                   
-                                                <img src="<%=product.getProductImage()%>" class="img-responsive" alt="<%=product.getProductImage()%>">
+                                                <img src="${pageContext.request.contextPath}/<%=product.getProductImage()%>" class="img-responsive" alt="<%=product.getProductImage()%>">
                                             </td>                                   
                                             <td><%=product.getProductName() %></td>
                                              <td><%=product.getCategoryName() %></td>

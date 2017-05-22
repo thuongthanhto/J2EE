@@ -17,6 +17,7 @@
         <title>Admin</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <!-- Bootstrap 3.3.6 -->
         <link href="${pageContext.request.contextPath}/admin/content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <!-- Font Awesome -->
@@ -36,6 +37,11 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->    </head>
     <body class="hold-transition skin-blue sidebar-mini">
+        <%
+        if (session.getAttribute("userAdmin") == null) {
+                response.sendRedirect("/shop/admin/login.jsp");
+            }
+        %>
         <!-- Site wrapper -->
         <div class="wrapper">
             <jsp:include page="header.jsp"></jsp:include>
@@ -113,7 +119,8 @@
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Hình ảnh</label>
                                         <div class="col-sm-8">
-                                            <input onchange="readURL(this);" type="file" id="file" name="files[]"  class="btn btn-white btn-warning btn-bold">	   
+                                            <input onchange="readURL(this);" type="file" id="file" name="file" name="uploadFile" class="btn btn-white btn-warning btn-bold">	   
+                                             <img class="text-center" width="160" height="230" alt="Hình ảnh" style="border:1px solid black;" hidden id="showAvatar" >            
                                             <span id="msgImg" style="color:red" hidden>Vui lòng chọn file ảnh!</span>
                                         </div>		                      
 		                    </div>
@@ -127,12 +134,13 @@
                                         </div>		                      
 		                    </div>   
                                 </div>
+		                 
 		                 <div class="box-footer">
                                     <a href='manager_product.jsp' class="btn btn-default">Hủy</a> 
                                     <input type="hidden" name="command" value="insert"> 
                                     <input onclick="return SaveProduct();" id="btnAdd" type="submit" class="btn btn-success pull-right" value='Thêm'/>
                                 </div>
-                            </form>  
+                            </form>                               
                         </div><!-- /.box -->
                     </section><!-- /.content -->
                 </div>
@@ -157,6 +165,20 @@
         <script src="${pageContext.request.contextPath}/admin/content/dist/js/demo.js"></script>
         <script src="${pageContext.request.contextPath}/admin/content/dist/js/autoNumeric.js"></script>
         
+        
+        <script language="javascript">  
+                function readURL(input) {
+                   
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#showAvatar').prop('hidden', false);
+                            $('#showAvatar').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+        </script>
         <script language="javascript">  
             $(document).ready(function () {
                 $('#price').bind('blur focusout keypress keyup', function () {
@@ -204,7 +226,7 @@
                     }
                     else
                     {
-                        $('#msgPrice').prop('hidden', true);
+                        $('#msgQuantity').prop('hidden', true);
                     }
                     
                     if($('#categoryid').val() == 0)
@@ -248,6 +270,15 @@
                         $('#msgPrice').prop('hidden', true);
                     }
                     
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }
+                    
                     if($('#categoryid').val() == 0)
                     {
                         $('#msgCate').prop('hidden', false);
@@ -287,6 +318,15 @@
                     else
                     {
                         $('#msgPrice').prop('hidden', true);
+                    }
+                    
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
                     }
                     
                     if($('#categoryid').val() == 0)
@@ -330,6 +370,15 @@
                         $('#msgImg').prop('hidden', true);
                     }
                     
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }
+                    
                     if($('#categoryid').val() == 0)
                     {
                         $('#msgCate').prop('hidden', false);
@@ -360,6 +409,65 @@
                     else
                     {
                         $('#msgProductName').prop('hidden', true);
+                    }
+                    
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }
+                    
+                    if($('#file').val() == "")
+                    {
+                        $('#msgImg').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgImg').prop('hidden', true);
+                    }
+                    
+                    if($('#price').val() == "")
+                    {
+                        $('#msgPrice').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgCate').prop('hidden', true);
+                    }
+                    
+                     if($('#des').val() == "")
+                    {
+                        $('#msgDes').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgDes').prop('hidden', true);
+                    }
+                    return false;
+                }
+                 else if($('#quantity').val() == "")
+                {
+                    $('#msgQuantity').prop('hidden', false);
+                    
+                    if($('#proname').val() == "")
+                    {
+                        $('#msgProductName').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgProductName').prop('hidden', true);
+                    }
+                    
+                    if($('#categoryid').val() == "")
+                    {
+                        $('#msgCate').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgCate').prop('hidden', true);
                     }
                     
                     if($('#file').val() == "")

@@ -34,6 +34,11 @@
         <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
+        <%
+        if (session.getAttribute("userAdmin") == null) {
+                response.sendRedirect("/shop/admin/login.jsp");
+            }
+        %>
         <!-- Site wrapper -->
         <div class="wrapper">
             <jsp:include page="header.jsp"></jsp:include>

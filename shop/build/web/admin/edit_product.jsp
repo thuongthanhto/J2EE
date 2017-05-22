@@ -4,33 +4,40 @@
     Author     : ThuyenBu
 --%>
 
+<%@page import="dao.ProductDAO"%>
+<%@page import="model.Product"%>
 <%@page import="model.Category"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.CategoryDAO"%>
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" href="${pageContext.request.contextPath}/images/icon.ico" type="image/png" />
         <title>Cập nhật sản phẩm</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link href="content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/admin/content/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-        <link href="content/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
-        <link href="content/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/admin/content/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/admin/content/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
 
         <%
-                long idPro = Long.parseLong(request.getParameter("productid"));
-                long category = Long.parseLong(request.getParameter("cateId"));
-                String productName = request.getParameter("productName");
-                long proPrice = Long.parseLong(request.getParameter("productPrice"));
-                String proDes = request.getParameter("productDes");
-                String imgPro = request.getParameter("imgPro");
+            if (session.getAttribute("userAdmin") == null) {
+                response.sendRedirect("/shop/admin/login.jsp");
+            }
+            ProductDAO productDAO = new ProductDAO();
+            Product product = new Product();
+            String productID = "";
+            if (request.getParameter("productID") != null) {
+                productID = request.getParameter("productID");
+                product = productDAO.getProduct(Long.parseLong(productID));
+            }
         %>
 
         <!-- Site wrapper -->
@@ -64,12 +71,11 @@
                             <!-- form start -->
                             <form action="/shop/UpdateProductServlet" method="post" class="form-horizontal" enctype="multipart/form-data">
                                 <div class="box-body">
-                                    <div class="col-sm-11">
-                                         <input type="text" hidden name="product_id" value="<%=idPro%>">
+                                    <input type="text" hidden name="product_id" value="<%=productID%>">
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Sản phẩm</label>
                                         <div class="col-sm-8">
-                                            <input id="proname" type="text" class="form-control" name="productname" value="<%=productName%>" placeholder="<%=productName%>">		                      	
+                                            <input id="proname" type="text" class="form-control" name="productname" value="<%=product.getProductName()%>" placeholder="Tên sản phẩm">		                      	
                                             <span id="msgProductName" style="color:red" hidden>Vui lòng nhập tên sản phẩm!</span>
                                         </div>		                      
 		                    </div>  
@@ -84,17 +90,17 @@
 		                    		ArrayList<Category>  listCategory = categoryDAO.getListCategory();
                         			if(listCategory != null){
                                                     
-                                                    for(Category cate : listCategory){   
-                                                        if(cate.getCategoryID() == category)
+                                                    for(Category category : listCategory){   
+                                                        if(category.getCategoryID() == product.getCategoryID())
                                                         {
-                                                            out.print("<option value="+cate.getCategoryID()+">"+ cate.getCategoryName() +"</option>");
+                                                            out.print("<option value="+category.getCategoryID()+">"+ category.getCategoryName() +"</option>");
                                                             
                                                         }
                                                         
                                                     }
                                                     
                                                     for(Category cate : listCategory){
-                                                        if(cate.getCategoryID() != category)
+                                                        if(cate.getCategoryID() != product.getCategoryID())
                                                         {
                                                             out.print("<option value="+cate.getCategoryID()+">"+ cate.getCategoryName() +"</option>");
                                                         }
@@ -110,32 +116,35 @@
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Đơn giá</label>
                                         <div class="col-sm-8">
-                                            <input onkeypress="return isNumberKey(event)" id="price" type="text" class="form-control" value="<%=proPrice%>" name="price" placeholder="Đơn giá">		                      	
+                                            <input onkeypress="return isNumberKey(event)" id="price" type="text" class="form-control" value="<%=product.getProductPrice()%>" name="price" placeholder="Đơn giá">		                      	
                                             <span id="msgPrice" style="color:red" hidden>Vui lòng nhập đơn giá!</span>
                                         </div>		                      
 		                    </div>
                                             
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">Số lượng</label>
+                                        <div class="col-sm-8">
+                                            <input onkeypress="return isNumberKey(event)" value="<%=product.getProductQuantity() %>" id="quantity" type="text" class="form-control" name="quantity" placeholder="Số lượng">		                      	
+                                            <span id="msgQuantity" style="color:red" hidden>Vui lòng nhập số lượng!</span>
+                                        </div>		                      
+		                    </div>        
+                                            
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Hình ảnh</label>
                                         <div class="col-sm-8">
-                                            <input onchange="readURL(this);" value="<%=imgPro%>" type="file" id="file" name="files[]"  class="btn btn-white btn-warning btn-bold">	                                            
+                                            <input onchange="readURL(this);" value="<%=product.getProductImage() %>" type="file" id="file" name="files[]"  class="btn btn-white btn-warning btn-bold">	                                            
+                                            <img width="160" height="230" alt="Hình ảnh" hidden style="border:1px solid black;" id="showAvatar" > 
                                         </div>		                      
 		                    </div>       
+                                            
 		                    	                   
 		                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Diễn giải</label>
                                         <div class="col-sm-8">
-                                            <input id="des" type="text" class="form-control" value="<%=proDes%>" name="description" placeholder="Diễn giải">		                      	
-                                            <span id="msgDes" style="color:red" hidden>Vui lòng nhập diễn giải!</span>
+                                              <input id="des" type="text" class="form-control" value="<%=product.getProductDescription()%>" name="description" placeholder="Diễn giải">	                      	
+                                             <span id="msgDes" style="color:red" hidden>Vui lòng nhập diễn giải!</span>
                                         </div>		                      
-		                    </div> 
-                                        
-                                    </div>
-                                            
-                                    <div class="col-sm-1">
-                                        <img width="160" height="230" alt="Hình ảnh" style="margin-left: -130px; border:1px solid black;" id="showAvatar" >            
-                                    </div>
-                                     
+		                    </div>       
                                 </div>
 		                 
 		                 <div class="box-footer">
@@ -154,38 +163,39 @@
         </div>
         <!-- ./wrapper -->
         <!-- jQuery 2.2.3 -->
-        <script src="content/plugins/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
-        <script src="content/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+       <script src="${pageContext.request.contextPath}/admin/content/plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <!-- Bootstrap 3.3.6 -->
         <!-- SlimScroll -->
-        <script src="content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="content/plugins/fastclick/fastclick.js"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/plugins/fastclick/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="content/dist/js/app.min.js"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/dist/js/app.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="content/dist/js/demo.js"></script>
-        <script src="content/dist/js/autoNumeric.js"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/dist/js/demo.js"></script>
+        <script src="${pageContext.request.contextPath}/admin/content/dist/js/autoNumeric.js"></script>
         
          <script language="javascript">  
-            $(document).ready(function () {
-                $('#price').bind('blur focusout keypress keyup', function () {
-                    $('#price').autoNumeric('init');
-                })
-            });
-            
-        </script>
-        
-        <script language="javascript">  
                 function readURL(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
                         reader.onload = function(e) {
+                            $('#showAvatar').prop('hidden', false);
                             $('#showAvatar').attr('src', e.target.result);
                         };
                         reader.readAsDataURL(input.files[0]);
                     }
                 }
+        </script>
+        
+         <script language="javascript">  
+            $(document).ready(function () {
+                $('#price').bind('blur focusout keypress keyup', function () {
+                    
+                })
+            });
+            
         </script>
         
         <script language="javascript">  
@@ -220,6 +230,15 @@
                         $('#msgPrice').prop('hidden', true);
                     }
                     
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }
+                    
                     if($('#categoryid').val() == 0)
                     {
                         $('#msgCate').prop('hidden', false);
@@ -228,7 +247,7 @@
                     {
                         $('#msgCate').prop('hidden', true);
                     }
-                          
+                                  
                     return false;
                 }
                 else if($('#des').val() == "")
@@ -253,6 +272,15 @@
                         $('#msgPrice').prop('hidden', true);
                     }
                     
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }
+                    
                     if($('#categoryid').val() == 0)
                     {
                         $('#msgCate').prop('hidden', false);
@@ -261,9 +289,9 @@
                     {
                         $('#msgCate').prop('hidden', true);
                     }
-                   
+                                       
                     return false;
-                }            
+                }             
                 else if($('#price').val() == "")
                 {
                     $('#msgPrice').prop('hidden', false);
@@ -275,15 +303,15 @@
                     else
                     {
                         $('#msgProductName').prop('hidden', true);
-                    }
-                    
-                    if($('#file').val() == "")
+                    }                                 
+                   
+                    if($('#quantity').val() == "")
                     {
-                        $('#msgImg').prop('hidden', false);
+                        $('#msgQuantity').prop('hidden', false);
                     }
                     else
                     {
-                        $('#msgImg').prop('hidden', true);
+                        $('#msgQuantity').prop('hidden', true);
                     }
                     
                     if($('#categoryid').val() == 0)
@@ -316,7 +344,57 @@
                     else
                     {
                         $('#msgProductName').prop('hidden', true);
-                    }               
+                    }
+                    
+                    if($('#quantity').val() == "")
+                    {
+                        $('#msgQuantity').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgQuantity').prop('hidden', true);
+                    }                                    
+                    
+                    if($('#price').val() == "")
+                    {
+                        $('#msgPrice').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgCate').prop('hidden', true);
+                    }
+                    
+                     if($('#des').val() == "")
+                    {
+                        $('#msgDes').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgDes').prop('hidden', true);
+                    }
+                    return false;
+                }
+                 else if($('#quantity').val() == "")
+                {
+                    $('#msgQuantity').prop('hidden', false);
+                    
+                    if($('#proname').val() == "")
+                    {
+                        $('#msgProductName').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgProductName').prop('hidden', true);
+                    }
+                    
+                    if($('#categoryid').val() == "")
+                    {
+                        $('#msgCate').prop('hidden', false);
+                    }
+                    else
+                    {
+                        $('#msgCate').prop('hidden', true);
+                    }                               
                     
                     if($('#price').val() == "")
                     {

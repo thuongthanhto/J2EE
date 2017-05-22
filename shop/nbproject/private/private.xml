@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Git%20Repository/J2EE/shop/web/admin/insert_product.jsp</file>
-            <file>file:/E:/Git%20Repository/J2EE/shop/src/java/controller/ManagerProductServlet.java</file>
-            <file>file:/E:/Git%20Repository/J2EE/shop/web/admin/insert_category.jsp</file>
-            <file>file:/E:/Git%20Repository/J2EE/shop/web/index.jsp</file>
-            <file>file:/E:/Git%20Repository/J2EE/shop/web/admin/manager_product.jsp</file>
-            <file>file:/E:/Git%20Repository/J2EE/shop/web/admin/edit_product.jsp</file>
+            <file>file:/D:/J2EE/shop/src/java/controller/CartServlet.java</file>
+            <file>file:/D:/J2EE/shop/web/single.jsp</file>
+            <file>file:/D:/J2EE/shop/web/product.jsp</file>
         </group>
     </open-files>
 </project-private>
