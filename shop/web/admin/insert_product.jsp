@@ -166,7 +166,7 @@
         <script src="${pageContext.request.contextPath}/admin/content/dist/js/autoNumeric.js"></script>
         
         
-        <script language="javascript">  
+        <script language="javascript">                
                 function readURL(input) {
                    
                     if (input.files && input.files[0]) {
@@ -182,7 +182,7 @@
         <script language="javascript">  
             $(document).ready(function () {
                 $('#price').bind('blur focusout keypress keyup', function () {
-                    $('#price').autoNumeric('init');
+                    //$('#price').autoNumeric('init');
                 })
             });
             

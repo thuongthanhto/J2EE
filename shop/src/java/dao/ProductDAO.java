@@ -47,6 +47,7 @@ public class ProductDAO {
         Product product = new Product();
         while (rs.next()) {
             product.setProductID(rs.getLong("product_id"));
+            product.setCategoryID(rs.getLong("category_id"));
             product.setProductName(rs.getString("product_name"));
             product.setProductQuantity(rs.getLong("product_quantity"));
             product.setProductImage(rs.getString("product_image"));

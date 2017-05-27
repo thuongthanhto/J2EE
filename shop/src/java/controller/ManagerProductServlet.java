@@ -9,6 +9,7 @@ import dao.ProductDAO;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -157,10 +158,10 @@ public class ManagerProductServlet extends HttpServlet {
                         description = new String(item.getString().getBytes("iso-8859-1"), "UTF-8");
                         
                         try{
-                            int count = productDAO.countProduct();  
+                            //int count = productDAO.countProduct();  
                             String img = "upload/" + fileName;
                             String cateName = "";
-                            productDAO.insert(new Product(count + 1,category_id, product_name, img, price, quantity, description, cateName));
+                            productDAO.insert(new Product(new Date().getTime(),category_id, product_name, img, price, quantity, description, cateName));
                             url = "admin/manager_product.jsp?pages=1";  
                         }
                         catch(SQLException ex){
